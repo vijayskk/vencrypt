@@ -15,6 +15,13 @@ vencrypt is a C program that allows you to encrypt and decrypt files using a use
 
 ## Usage:
 
+### Cloning:
+
+```
+git clone https://github.com/vijayskk/vencrypt.git 
+cd vencrypt
+```
+
 ### Compiling:
 
 ```
