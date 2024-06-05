@@ -17,20 +17,20 @@ vencrypt is a C program that allows you to encrypt and decrypt files using a use
 
 ### Cloning:
 
-```
+```bash
 git clone https://github.com/vijayskk/vencrypt.git 
 cd vencrypt
 ```
 
 ### Compiling:
 
-```
+```bash
 gcc vencrypt.c -o vencrypt
 ```
 
 ### Encryption:
 
-```
+```bash
 ./vencrypt E <input_file> <output_file> <password>
 ```
 
@@ -40,7 +40,7 @@ Replace <password> with the password.
 
 ### Decryption:
 
-```
+```bash
 ./vencrypt D <input_file> <output_file> <password>
 ```
 
@@ -53,7 +53,7 @@ Replace <password> with the password.
 
 To encrypt a file named secret.txt and save the encrypted output as secret_encrypted.txt, use the following command:
 
-```
+```bash
 ./vencrypt E secret.txt secret_encrypted.txt thestrongpassword123
 ```
 
