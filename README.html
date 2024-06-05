@@ -367,7 +367,7 @@ code {
   </script>
 <h1 id="vencrypt">vencrypt</h1>
 <h2 id="a-simple-file-encryption-tool">A Simple File Encryption Tool</h2>
-<p>vencrypt is a C program that allows you to encrypt and decrypt files using a user-provided password. It offers a basic level of encryption for educational purposes.</p>
+<p>vencrypt is a C program that allows you to encrypt and decrypt files using a user-provided password. It offers a basic level of encryption for educational purposes. You can use the <code>vencrypt.h</code> header to implement this in your project also.</p>
 <h2 id="features">Features:</h2>
 <ul>
 <li>Encrypts and decrypts files using a password.</li>
@@ -385,21 +385,29 @@ cd vencrypt
 <pre class="hljs"><code><div>gcc vencrypt.c -o vencrypt
 </div></code></pre>
 <h3 id="encryption">Encryption:</h3>
-<pre class="hljs"><code><div>./vencrypt E &lt;input_file&gt; &lt;output_file&gt;
+<pre class="hljs"><code><div>./vencrypt E &lt;input_file&gt; &lt;output_file&gt; &lt;password&gt;
 </div></code></pre>
 <p>Replace &lt;input_file&gt; with the path to the file you want to encrypt.
-Replace &lt;output_file&gt; with the desired name for the encrypted file.</p>
+Replace &lt;output_file&gt; with the desired name for the encrypted file.
+Replace <password> with the password.</p>
 <h3 id="decryption">Decryption:</h3>
-<pre class="hljs"><code><div>./vencrypt D &lt;input_file&gt; &lt;output_file&gt;
+<pre class="hljs"><code><div>./vencrypt D &lt;input_file&gt; &lt;output_file&gt; &lt;password&gt;
 </div></code></pre>
 <p>Replace &lt;input_file&gt; with the path to the encrypted file.
-Replace &lt;output_file&gt; with the desired name for the decrypted file.</p>
-<h3 id="password-prompt">Password Prompt:</h3>
-<p>During execution, the program will prompt you to enter a password. This password will be used for both encryption and decryption.</p>
+Replace &lt;output_file&gt; with the desired name for the decrypted file.
+Replace <password> with the password.</p>
 <h3 id="example">Example:</h3>
 <p>To encrypt a file named secret.txt and save the encrypted output as secret_encrypted.txt, use the following command:</p>
-<pre class="hljs"><code><div>./vencrypt E secret.txt secret_encrypted.txt
+<pre class="hljs"><code><div>./vencrypt E secret.txt secret_encrypted.txt thestrongpassword123
 </div></code></pre>
+<h3 id="api-documentation">API Documentation</h3>
+<p>You can include the <code>vencrypt.h</code> file in your project and it contains two functions</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">encrypt</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *file1name,<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *file2name,<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *pass)</span></span>;
+</div></code></pre>
+<p>Also</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">decrypt</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *file1name,<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *file2name,<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *pass)</span></span>;
+</div></code></pre>
+<p>This function takes the first parameter as the name of the input file, second parameter as the name of the output file and third as the password. All variables must be constants.</p>
 <h3 id="limitations">Limitations:</h3>
 <p>This implementation uses a simple Caesar cipher-like approach, which is not cryptographically secure for real-world applications.
 The maximum password length is set to 30 characters (MAXPASSLEN).</p>
