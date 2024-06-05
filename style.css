@@ -177,7 +177,7 @@ textarea {
 
 html,
 body {
-  background-color: #222;
+  background-color: #000000;
   min-height: 100%;
   margin: 0%;
 }
@@ -187,7 +187,7 @@ html {
 }
 
 body {
-  color: #fafafa;
+  color: #ffffff;
   font-family: "Courier New";
   line-height: 1.45;
   padding: 6rem;
