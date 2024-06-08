@@ -1,7 +1,49 @@
 #define MAXPASSLEN 30
+#define MAXFILETYPELEN 10
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+int extensionChecker(const char * extension){
+    FILE * configfile = fopen("configs/filetypes.info","r");
+
+    int lineLength = 10;
+    char line[lineLength]; /* not ISO 90 compatible */
+
+
+    while(fgets(line, lineLength, configfile)) {
+        if (strcmp(line,extension) == 0)
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+extern int checkFile(const char * filename){
+    char extension[MAXFILETYPELEN] = "";
+    int isExtension = 0;
+    int j = 0;
+    int i = 0;
+    while(filename[i] != '\0')
+    {
+        if (isExtension == 1)
+        {
+            extension[j] = filename[i];
+            j++;
+        }
+        if (filename[i] == '.')
+        {
+            isExtension = 1;
+        }
+        i++;
+    }
+    extension[j] = '\n';
+    return extensionChecker(extension); 
+}
+
+
 
 int upShift(int num, int max, int count)
 {
@@ -52,9 +94,8 @@ int sizeOfPass(const char *pass)
     return size;
 }
 
-extern void encrypt(const char *file1name,const char *file2name,const char *pass)
+extern void encrypt(const char *file1name, const char *file2name, const char *pass)
 {
-
 
     if (file1name == NULL || file2name == NULL || pass == NULL)
     {
@@ -70,55 +111,42 @@ extern void encrypt(const char *file1name,const char *file2name,const char *pass
         printf("\nNo file called %s\nExiting...\n", file1name);
         exit(0);
     }
+    if (checkFile(file1name) != 1)
+    {
+        char tm;
+        printf("\nThis filetype is not supported yet.\nWant to continue?:[y,n]:");
+        scanf("%c",&tm);
+        if (tm != 'y')
+        {
+            exit(0);
+        }
+        
+    }
+    
     else
     {
         file2 = fopen(file2name, "w");
     }
-    //---
     printf("\nEncrypting...\n");
     char ch = fgetc(file1);
 
     int index = 0;
     while (ch != EOF)
     {
-        // printf("%d,%c ->", ch, ch);
 
         fputc(upShift((int)ch, 255, pass[index % sizeOfPass(pass)]), file2);
-
-        // printf(" %d,%c\n", upShift((int)ch, 255, pass[index % sizeOfPass(pass)]), upShift((int)ch, 255, pass[index % sizeOfPass(pass)]));
 
         ch = fgetc(file1);
         index++;
     }
-    // printf("\nEnter the password: ");
-    // scanf("%s", pass);
-    // printf("\nDecrypting...\n");
-    // char ch = fgetc(file1);
-
-    // int index = 0;
-    // while (ch != EOF)
-    // {
-    //     //printf("%d,%c ->", ch, ch);
-
-    //     fputc(downShift((int)ch, 255, pass[index % sizeOfPass(pass)]), file2);
-
-    //     //printf(" %d,%c\n", downShift((int)ch, 255, pass[index % sizeOfPass(pass)] ), downShift((int)ch, 255, pass[index % sizeOfPass(pass)] ));
-
-    //     ch = fgetc(file1);
-    //     index++;
-    // }
 
     printf("\nFile saved as %s\n", file2name);
     fclose(file1);
     fclose(file2);
-
-    // printf("\n%s,%d", pass, sizeOfPass(pass));
 }
 
-
-extern void decrypt(const char *file1name,const char *file2name,const char *pass)
+extern void decrypt(const char *file1name, const char *file2name, const char *pass)
 {
-
 
     if (file1name == NULL || file2name == NULL || pass == NULL)
     {
@@ -134,12 +162,22 @@ extern void decrypt(const char *file1name,const char *file2name,const char *pass
         printf("\nNo file called %s\nExiting...\n", file1name);
         exit(0);
     }
+    if (checkFile(file1name) != 1)
+    {
+        char tm;
+        printf("\nThis filetype is not supported yet.\nWant to continue?:[y,n]:");
+        scanf("%c",&tm);
+        if (tm != 'y')
+        {
+            exit(0);
+        }
+        
+    }
     else
     {
         file2 = fopen(file2name, "w");
     }
     //---
-    
 
     printf("\nDecrypting...\n");
     char ch = fgetc(file1);
@@ -147,11 +185,8 @@ extern void decrypt(const char *file1name,const char *file2name,const char *pass
     int index = 0;
     while (ch != EOF)
     {
-        //printf("%d,%c ->", ch, ch);
 
         fputc(downShift((int)ch, 255, pass[index % sizeOfPass(pass)]), file2);
-
-        //printf(" %d,%c\n", downShift((int)ch, 255, pass[index % sizeOfPass(pass)] ), downShift((int)ch, 255, pass[index % sizeOfPass(pass)] ));
 
         ch = fgetc(file1);
         index++;
@@ -160,6 +195,4 @@ extern void decrypt(const char *file1name,const char *file2name,const char *pass
     printf("\nFile saved as %s\n", file2name);
     fclose(file1);
     fclose(file2);
-
-    // printf("\n%s,%d", pass, sizeOfPass(pass));
 }
